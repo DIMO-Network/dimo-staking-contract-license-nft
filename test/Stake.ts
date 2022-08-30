@@ -421,5 +421,73 @@ describe("Stake", function () {
 
       expect(await upgraded.helloWorld()).to.be.equal("Hello World");
     });
+
+    it("Should be able to read the new variable in V2 contract", async () => {
+      const StakeV2Factory = new StakeV2__factory(deployer);
+      const upgraded: any = await upgrades.upgradeProxy(
+        Stake.address,
+        StakeV2Factory
+      );
+      await upgraded.deployed();
+
+      await upgraded.test();
+
+      expect(await upgraded.v2variable()).to.be.equal("test");
+    });
+
+    it("Should retain v1 variables", async () => {
+      // stake first
+      await DimoTokenContract.approve(Stake.address, largeApprovalAmount);
+      await Stake.stake(minStakeAmount);
+
+      const bool = await Stake.checkUserIsWhitelisted(deployer.address);
+
+      // tokenURI
+      await Stake.setDimoURI(`https://dimo.zone/`);
+      const tokenName = await Stake.name();
+      const tokenSymbol = await Stake.symbol();
+
+      // mint license
+      await Stake.mint(deployer.address);
+      const LicenseBalance = await Stake.balanceOf(deployer.address);
+
+      // minStakeAmount
+      const minStakeVal = await Stake.minStakeAmount();
+
+      // dimoTotalAmountStaked
+      const dimoTotalAmountStakedVal = await Stake.dimoTotalAmountStaked();
+
+      // staked balance of
+      const stakedBalance = await Stake.checkUserStakedBalance(user1.address);
+
+      const tokenURI = await Stake.tokenURI(1);
+
+      // upgrade to v2
+      const StakeV2Factory = new StakeV2__factory(deployer);
+      const upgraded: any = await upgrades.upgradeProxy(
+        Stake.address,
+        StakeV2Factory
+      );
+      await upgraded.deployed();
+
+      const boolv2 = await Stake.checkUserIsWhitelisted(deployer.address);
+      const LicenseBalancev2 = await Stake.balanceOf(deployer.address);
+      const minStakeValv2 = await Stake.minStakeAmount();
+      const dimoTotalAmountStakedValv2 = await Stake.dimoTotalAmountStaked();
+      const stakedBalancev2 = await Stake.checkUserStakedBalance(user1.address);
+
+      const tokenURIv2 = await Stake.tokenURI(1);
+      const tokenNamev2 = await Stake.name();
+      const tokenSymbolv2 = await Stake.symbol();
+
+      expect(tokenName).to.equal(tokenNamev2);
+      expect(tokenSymbol).to.equal(tokenSymbolv2);
+      expect(tokenURI).to.equal(tokenURIv2);
+      expect(stakedBalance).to.equal(stakedBalancev2);
+      expect(dimoTotalAmountStakedVal).to.equal(dimoTotalAmountStakedValv2);
+      expect(minStakeVal).to.equal(minStakeValv2);
+      expect(bool).to.equal(boolv2);
+      expect(LicenseBalance).to.equal(LicenseBalancev2);
+    });
   });
 });
