@@ -11,7 +11,7 @@ const func: DeployFunction = async (
   const { deployer } = await getNamedAccounts();
 
   const DIMO_TOKEN = `0xE261D618a959aFfFd53168Cd07D12E37B26761db`; //mainnet
-  const DIMO_FOUNDATION = `0xCcFa7c808F5b77822e4935a7230F46681c99F4Bc`; // matic
+  const DIMO_FOUNDATION = `0xCED3c922200559128930180d3f0bfFd4d9f4F123`; // matic
 
   const StakeFactory: any = await ethers.getContractFactory("Stake", deployer);
 
@@ -20,6 +20,7 @@ const func: DeployFunction = async (
     [DIMO_TOKEN],
     {
       initializer: "initialize",
+      kind: "uups",
     }
   );
 
