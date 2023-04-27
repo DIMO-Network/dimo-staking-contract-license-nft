@@ -6,6 +6,7 @@ import "@nomiclabs/hardhat-ethers";
 import "@typechain/hardhat";
 import "@openzeppelin/hardhat-upgrades";
 import "solidity-coverage";
+import "hardhat-abi-exporter";
 
 import "./tasks/accounts";
 import "./tasks/balance";
@@ -31,6 +32,12 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  abiExporter: {
+    path: "./abis",
+    runOnCompile: true,
+    only: [":Stake$"],
+    format: "json",
   },
 };
 
