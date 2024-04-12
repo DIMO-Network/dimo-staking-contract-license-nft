@@ -27,6 +27,16 @@ const config: HardhatUserConfig = {
       },
     ],
   },
+  networks: {
+    polygon: {
+      url: process.env.POLYGON_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+    amoy: {
+      url: process.env.AMOY_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+  },
   mocha: {
     timeout: 200000,
   },
