@@ -11,3 +11,7 @@ https://docs.dimo.zone/dimo/technical-documentation/license-nft
 | Network | Address                                                                                                                  |
 | ------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Polygon | [0xaa32a9e74486dd136ccedf17061fe4efc95a621e](https://polygonscan.com/address/0xaa32a9e74486dd136ccedf17061fe4efc95a621e) |
+
+## Audit
+
+[Sayfer - October 2022](https://sayfer.io/audits/smart-contract-audit-report-for-dimo/)
